@@ -3,7 +3,7 @@ from pymongo import MongoClient
 
 app=Flask(__name__)
 
-app.config["MONGO_URI"] = ""
+app.config["MONGO_URI"] = "mongodb+srv://tejaswinireddy989:tejaswini%40123@cluster0.8chifhn.mongodb.net/"
 
 client = MongoClient(app.config['MONGO_URI'])
 db = client.get_database('CarSellingProduct')
@@ -18,3 +18,6 @@ def home():
        print('user',session.get('user'))
        return render_template('index.html',username=session.get('user'))
     return render_template('index.html',username="")
+
+if __name__ == "__main__":
+    app.run(debug=True)
