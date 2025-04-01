@@ -246,3 +246,12 @@ h2 {
     font-size: 1em;
     color: #555;
 }
+.search
+{
+  width: 250px;
+}
+.searchbtn
+{
+  height: 45px;
+  margin-left: 5px;
+}
