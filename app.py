@@ -68,9 +68,13 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route("/fetchcars")
-def get_cars():
+def FetchCars():
     cars = list(db.cars.find({}, {"_id": 0}))  
     return jsonify(cars)
+
+@app.route("/usedcars")
+def UsedCars():
+    return render_template('usedcars.html',username="")
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -12,27 +12,27 @@
   <section class="form-section">
     <form action="/sell_car" method="POST" id="sellCarForm">
       <div class="form-group">
-        <label for="car_model">Car Model:</label>
+        <label for="carmodel">Car Model:</label>
         <input type="text" id="car_model" name="car_model" required>
       </div>
       
       <div class="form-group">
-        <label for="car_year">Car Year:</label>
+        <label for="caryear">Car Year:</label>
         <input type="number" id="car_year" name="car_year" required>
       </div>
       
       <div class="form-group">
-        <label for="car_condition">Car Condition:</label>
-        <textarea id="car_condition" name="car_condition" required></textarea>
+        <label for="carcondition">Car Condition:</label>
+        <textarea id="carcondition" name="car_condition" required></textarea>
       </div>
       
       <div class="form-group">
-        <label for="car_price">Price:</label>
+        <label for="carprice">Price:</label>
         <input type="number" id="car_price" name="car_price" required>
       </div>
       
       <div class="form-group">
-        <label for="car_image">Car Image:</label>
+        <label for="carimage">Car Image:</label>
         <input type="file" id="car_image" name="car_image" accept="image/*" required>
       </div>
       
@@ -43,32 +43,26 @@
 
 <script>
     document.getElementById('sellCarForm').addEventListener('submit', function(e) {
-      e.preventDefault(); // Prevent the default form submission
+      e.preventDefault(); 
   
-      // Create a new FormData object
       let formData = new FormData();
   
-      // Append form data fields to the FormData object
-      formData.append('car_model', document.getElementById('car_model').value);
-      formData.append('car_year', document.getElementById('car_year').value);
-      formData.append('car_condition', document.getElementById('car_condition').value);
-      formData.append('car_price', document.getElementById('car_price').value);
+      formData.append('car_model', document.getElementById('carmodel').value);
+      formData.append('car_year', document.getElementById('caryear').value);
+      formData.append('car_condition', document.getElementById('carcondition').value);
+      formData.append('car_price', document.getElementById('carprice').value);
       
-      // Handle the image upload
-      const carImage = document.getElementById('car_image').files[0];
+      const carImage = document.getElementById('carimage').files[0];
       formData.append('car_image', carImage);
   
-      // Send the data using fetch API
       fetch('/sellcar', {
         method: 'POST',
         body: formData
       })
-      .then(response => response.json())  // Parse JSON response
+      .then(response => response.json())  /
       .then(data => {
-        // Show success message or handle success response
         if (data.success) {
           document.getElementById('successMessage').style.display = 'block';
-          // Optionally, clear the form
           document.getElementById('sellCarForm').reset();
         } else {
           alert('Something went wrong!');
