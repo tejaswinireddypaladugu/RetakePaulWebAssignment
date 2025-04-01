@@ -64,10 +64,13 @@ def success():
     return '<h1>Your car has been listed for sale successfully!</h1>'
 
 
-# Function to check if the file is allowed
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+@app.route("/fetchcars")
+def get_cars():
+    cars = list(db.cars.find({}, {"_id": 0}))  
+    return jsonify(cars)
 
 if __name__ == "__main__":
     app.run(debug=True)
