@@ -69,7 +69,9 @@ def allowed_file(filename):
 
 @app.route("/fetchcars")
 def FetchCars():
-    cars = list(db.cars.find({}, {"_id": 0}))  
+    cars = list(db.cars.find({}))  
+    for car in cars:
+        car["_id"] = str(car["_id"]) 
     return jsonify(cars)
 
 @app.route("/usedcars")
