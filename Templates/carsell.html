@@ -7,6 +7,9 @@
 
   <section class="intro">
     <h4>Mention You Car Details</h4>
+    {% if id %}
+    <input type="hidden" name="car_id" value="{{ id }}" id="car_id"/>
+    {% endif %}
   </section>
 
   <section class="form-section">
@@ -111,6 +114,87 @@ document.getElementById('sellCarForm').addEventListener('submit', function(e) {
         alert('Error submitting form.');
     });
 });
+
+function editCar()
+{
+  const id= document.querySelector('#car_id').value;
+  if(id)
+  {
+    document.getElementById('sellCarForm').addEventListener('submit', function(e) {
+    e.preventDefault(); 
+
+    let isValid = true;
+    let carModel = document.getElementById('car_model').value.trim();
+    let carYear = document.getElementById('car_year').value.trim();
+    let carCondition = document.getElementById('car_condition').value.trim();
+    let carPrice = document.getElementById('car_price').value.trim();
+    let carImage = document.getElementById('car_image').files[0];
+
+    document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+
+    if (carModel === "") {
+        document.getElementById('carModelError').textContent = "Car model is required!";
+        isValid = false;
+    }
+
+    let currentYear = new Date().getFullYear();
+    if (carYear === "" || carYear < 1900 || carYear > currentYear) {
+        document.getElementById('carYearError').textContent = "Enter a valid year between 1900 and " + currentYear;
+        isValid = false;
+    }
+
+    if (carCondition === "") {
+        document.getElementById('carConditionError').textContent = "Car condition is required!";
+        isValid = false;
+    }
+
+    if (carPrice === "" || carPrice < 100) {
+        document.getElementById('carPriceError').textContent = "Price should be at least $100!";
+        isValid = false;
+    }
+
+    if (!carImage) {
+        document.getElementById('carImageError').textContent = "Car image is required!";
+        isValid = false;
+    } else if (carImage.size > 2 * 1024 * 1024) {
+        document.getElementById('carImageError').textContent = "Image must be less than 2MB!";
+        isValid = false;
+    }
+
+    if (!isValid) {
+        return; 
+    }
+
+    let formData = new FormData();
+    formData.append('car_model', carModel);
+    formData.append('car_year', carYear);
+    formData.append('car_condition', carCondition);
+    formData.append('car_price', carPrice);
+    formData.append('car_image', carImage);
+    formData.append('car_id', id);
+    
+    fetch('/updatecar', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('sellCarForm').reset();
+        } else {
+            alert('Something went wrong!');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error submitting form.');
+    });
+});
+
+  } 
+}
+editCar();
 </script>
 {% include ('components/footer.html', username) %}
 

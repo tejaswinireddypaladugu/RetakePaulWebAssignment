@@ -4,7 +4,7 @@
 <section class="used-cars">
     <div class="container">
         <h2>Available Used Cars</h2>
-        <div id="cars-list" class="cars-grid">
+        <div id="cars-list" class="cars-grid" >
         </div>
     </div>
 </section>
@@ -28,7 +28,7 @@
                             <h3>${car.car_model} (${car.car_year})</h3>
                             <p>Condition: ${car.car_condition}</p>
                             <p>Price: $${car.car_price}</p>
-                            <img src="/static/assets/edit.png" width="10" height="10" class="edit"/>
+                            <img src="/static/assets/edit.png" width="10" height="10" class="edit" onclick="window.location.href='/editcar?id=${car._id}'"/>
                         `;
                         carsList.appendChild(carItem);
                     });

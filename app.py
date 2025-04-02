@@ -63,6 +63,12 @@ def Sellcar():
 def success():
     return '<h1>Your car has been listed for sale successfully!</h1>'
 
+@app.route('/editcar')
+def EditCar():
+    id=request.args.get('id')
+    print('req',id)
+    return render_template('carsell.html',id=id)
+
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
