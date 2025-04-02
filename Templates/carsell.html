@@ -16,12 +16,12 @@
     <form action="/sell_car" method="POST" id="sellCarForm">
       <div class="form-group">
         <label for="carmodel">Car Model:</label>
-        <input type="text" id="car_model" name="car_model" required>
+        <input type="text" id="carmodel" name="car_model" required>
       </div>
       
       <div class="form-group">
         <label for="caryear">Car Year:</label>
-        <input type="number" id="car_year" name="car_year" required>
+        <input type="number" id="caryear" name="car_year" required>
       </div>
       
       <div class="form-group">
@@ -31,12 +31,12 @@
       
       <div class="form-group">
         <label for="carprice">Price:</label>
-        <input type="number" id="car_price" name="car_price" required>
+        <input type="number" id="carprice" name="car_price" required>
       </div>
       
       <div class="form-group">
         <label for="carimage">Car Image:</label>
-        <input type="file" id="car_image" name="car_image" accept="image/*" required>
+        <input type="file" id="carimage" name="car_image" accept="image/*" required>
       </div>
       
       <button type="submit">Submit</button>
@@ -44,50 +44,133 @@
   </section>
 </main>
 <script>
-document.getElementById('sellCarForm').addEventListener('submit', function(e) {
+
+
+function editCar()
+{
+  const id= document.querySelector('#car_id');
+  if(id)
+  {
+    document.getElementById('sellCarForm').addEventListener('submit', function(e) {
     e.preventDefault(); 
 
     let isValid = true;
-    let carModel = document.getElementById('car_model').value.trim();
-    let carYear = document.getElementById('car_year').value.trim();
-    let carCondition = document.getElementById('car_condition').value.trim();
-    let carPrice = document.getElementById('car_price').value.trim();
-    let carImage = document.getElementById('car_image').files[0];
+    let carModel = document.getElementById('carmodel').value.trim();
+    let carYear = document.getElementById('caryear').value.trim();
+    let carCondition = document.getElementById('carcondition').value.trim();
+    let carPrice = document.getElementById('carprice').value.trim();
+    let carImage = document.getElementById('carimage').files[0];
 
     document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
 
-    if (carModel === "") {
-        document.getElementById('carModelError').textContent = "Car model is required!";
-        isValid = false;
-    }
+    // if (carModel === "") {
+    //     document.getElementById('carModelError').textContent = "Car model is required!";
+    //     isValid = false;
+    // }
 
-    let currentYear = new Date().getFullYear();
-    if (carYear === "" || carYear < 1900 || carYear > currentYear) {
-        document.getElementById('carYearError').textContent = "Enter a valid year between 1900 and " + currentYear;
-        isValid = false;
-    }
+    // let currentYear = new Date().getFullYear();
+    // if (carYear === "" || carYear < 1900 || carYear > currentYear) {
+    //     document.getElementById('carYearError').textContent = "Enter a valid year between 1900 and " + currentYear;
+    //     isValid = false;
+    // }
 
-    if (carCondition === "") {
-        document.getElementById('carConditionError').textContent = "Car condition is required!";
-        isValid = false;
-    }
+    // if (carCondition === "") {
+    //     document.getElementById('carConditionError').textContent = "Car condition is required!";
+    //     isValid = false;
+    // }
 
-    if (carPrice === "" || carPrice < 100) {
-        document.getElementById('carPriceError').textContent = "Price should be at least $100!";
-        isValid = false;
-    }
+    // if (carPrice === "" || carPrice < 100) {
+    //     document.getElementById('carPriceError').textContent = "Price should be at least $100!";
+    //     isValid = false;
+    // }
 
-    if (!carImage) {
-        document.getElementById('carImageError').textContent = "Car image is required!";
-        isValid = false;
-    } else if (carImage.size > 2 * 1024 * 1024) {
-        document.getElementById('carImageError').textContent = "Image must be less than 2MB!";
-        isValid = false;
-    }
+    // if (!carImage) {
+    //     document.getElementById('carImageError').textContent = "Car image is required!";
+    //     isValid = false;
+    // } else if (carImage.size > 2 * 1024 * 1024) {
+    //     document.getElementById('carImageError').textContent = "Image must be less than 2MB!";
+    //     isValid = false;
+    // }
 
-    if (!isValid) {
-        return; 
-    }
+    // if (!isValid) {
+    //     return; 
+    // }
+
+    let formData = new FormData();
+    formData.append('car_model', carModel);
+    formData.append('car_year', carYear);
+    formData.append('car_condition', carCondition);
+    formData.append('car_price', carPrice);
+    formData.append('car_image', carImage);
+    formData.append('car_id', id.value);
+
+    fetch('/updatecar', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('data',data );
+        if (data.success) {
+            alert('Data updated successfully!');
+            document.getElementById('sellCarForm').reset();
+        } else {
+            alert('Something went wrong!');
+        }
+    })
+    .catch(error => {
+      console.error('Fetch Error:', error);
+      alert('Network or Server Error: ' + error.message);
+    });
+});
+
+  } 
+  else
+  {
+    document.getElementById('sellCarForm').addEventListener('submit', function(e) {
+    e.preventDefault(); 
+
+    let isValid = true;
+    let carModel = document.getElementById('carmodel').value.trim();
+    let carYear = document.getElementById('caryear').value.trim();
+    let carCondition = document.getElementById('carcondition').value.trim();
+    let carPrice = document.getElementById('carprice').value.trim();
+    let carImage = document.getElementById('carimage').files[0];
+
+    // document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+
+    // if (carModel === "") {
+    //     document.getElementById('carModelError').textContent = "Car model is required!";
+    //     isValid = false;
+    // }
+
+    // let currentYear = new Date().getFullYear();
+    // if (carYear === "" || carYear < 1900 || carYear > currentYear) {
+    //     document.getElementById('carYearError').textContent = "Enter a valid year between 1900 and " + currentYear;
+    //     isValid = false;
+    // }
+
+    // if (carCondition === "") {
+    //     document.getElementById('carConditionError').textContent = "Car condition is required!";
+    //     isValid = false;
+    // }
+
+    // if (carPrice === "" || carPrice < 100) {
+    //     document.getElementById('carPriceError').textContent = "Price should be at least $100!";
+    //     isValid = false;
+    // }
+
+    // if (!carImage) {
+    //     document.getElementById('carImageError').textContent = "Car image is required!";
+    //     isValid = false;
+    // } else if (carImage.size > 2 * 1024 * 1024) {
+    //     document.getElementById('carImageError').textContent = "Image must be less than 2MB!";
+    //     isValid = false;
+    // }
+
+    // if (!isValid) {
+    //     return; 
+    // }
 
     let formData = new FormData();
     formData.append('car_model', carModel);
@@ -103,8 +186,8 @@ document.getElementById('sellCarForm').addEventListener('submit', function(e) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            document.getElementById('successMessage').style.display = 'block';
-            document.getElementById('sellCarForm').reset();
+          alert('New Car created successfully!');
+          document.getElementById('sellCarForm').reset();
         } else {
             alert('Something went wrong!');
         }
@@ -114,85 +197,7 @@ document.getElementById('sellCarForm').addEventListener('submit', function(e) {
         alert('Error submitting form.');
     });
 });
-
-function editCar()
-{
-  const id= document.querySelector('#car_id').value;
-  if(id)
-  {
-    document.getElementById('sellCarForm').addEventListener('submit', function(e) {
-    e.preventDefault(); 
-
-    let isValid = true;
-    let carModel = document.getElementById('car_model').value.trim();
-    let carYear = document.getElementById('car_year').value.trim();
-    let carCondition = document.getElementById('car_condition').value.trim();
-    let carPrice = document.getElementById('car_price').value.trim();
-    let carImage = document.getElementById('car_image').files[0];
-
-    document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
-
-    if (carModel === "") {
-        document.getElementById('carModelError').textContent = "Car model is required!";
-        isValid = false;
-    }
-
-    let currentYear = new Date().getFullYear();
-    if (carYear === "" || carYear < 1900 || carYear > currentYear) {
-        document.getElementById('carYearError').textContent = "Enter a valid year between 1900 and " + currentYear;
-        isValid = false;
-    }
-
-    if (carCondition === "") {
-        document.getElementById('carConditionError').textContent = "Car condition is required!";
-        isValid = false;
-    }
-
-    if (carPrice === "" || carPrice < 100) {
-        document.getElementById('carPriceError').textContent = "Price should be at least $100!";
-        isValid = false;
-    }
-
-    if (!carImage) {
-        document.getElementById('carImageError').textContent = "Car image is required!";
-        isValid = false;
-    } else if (carImage.size > 2 * 1024 * 1024) {
-        document.getElementById('carImageError').textContent = "Image must be less than 2MB!";
-        isValid = false;
-    }
-
-    if (!isValid) {
-        return; 
-    }
-
-    let formData = new FormData();
-    formData.append('car_model', carModel);
-    formData.append('car_year', carYear);
-    formData.append('car_condition', carCondition);
-    formData.append('car_price', carPrice);
-    formData.append('car_image', carImage);
-    formData.append('car_id', id);
-    
-    fetch('/updatecar', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            document.getElementById('successMessage').style.display = 'block';
-            document.getElementById('sellCarForm').reset();
-        } else {
-            alert('Something went wrong!');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error submitting form.');
-    });
-});
-
-  } 
+  }
 }
 editCar();
 </script>

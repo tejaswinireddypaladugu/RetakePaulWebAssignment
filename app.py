@@ -55,7 +55,7 @@ def Sellcar():
             }
             db.cars.insert_one(car_data)  
             
-            return redirect('/success')  
+            return jsonify({'success': True, 'message': 'Car Created successfully'}) 
     return render_template('carsell.html', username=session.get('user'))
 
 
@@ -69,7 +69,41 @@ def EditCar():
     print('req',id)
     return render_template('carsell.html',id=id)
 
+from bson.objectid import ObjectId
 
+@app.route('/updatecar', methods=['POST'])
+def update_car():
+    if request.method == 'POST':
+        car_id = request.form.get('car_id')  
+            
+        car_model = request.form['car_model']
+        car_year = request.form['car_year']
+        car_condition = request.form['car_condition']
+        car_price = request.form['car_price']
+
+        car_data = {
+            'car_model': car_model,
+            'car_year': car_year,
+            'car_condition': car_condition,
+            'car_price': car_price
+        }
+    
+        if 'car_image' in request.files:
+            car_image = request.files['car_image']
+            if car_image and allowed_file(car_image.filename):
+                filename = secure_filename(car_image.filename)
+                filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                car_image.save(filepath)
+                car_data['car_image'] = filepath 
+        
+        result = db.cars.update_one({"_id": ObjectId(car_id)}, {"$set": car_data})
+        
+        if result.modified_count > 0:
+             return jsonify({'success': True, 'message': 'Car updated successfully'})
+        else:
+              return jsonify({'success': False, 'message': 'No changes made or car not found'})
+        
+    
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
