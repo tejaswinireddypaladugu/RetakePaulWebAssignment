@@ -105,7 +105,7 @@ function editCar()
     formData.append('car_id', id.value);
 
     fetch('/updatecar', {
-        method: 'POST',
+        method: 'PUT',
         body: formData
     })
     .then(response => response.json())

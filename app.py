@@ -71,9 +71,9 @@ def EditCar():
 
 from bson.objectid import ObjectId
 
-@app.route('/updatecar', methods=['POST'])
-def update_car():
-    if request.method == 'POST':
+@app.route('/updatecar', methods=['PUT'])
+def UpdateCar():
+    if request.method == 'PUT':
         car_id = request.form.get('car_id')  
             
         car_model = request.form['car_model']
@@ -103,7 +103,17 @@ def update_car():
         else:
               return jsonify({'success': False, 'message': 'No changes made or car not found'})
         
-    
+@app.route('/deletecar', methods=['GET'])
+def DeleteCar():
+        car_id = request.args.get('id')  
+        print('id',car_id)
+        if not car_id:
+            return jsonify({'success': False, 'message': 'Car ID not present'})
+   
+        result = db.cars.delete_one({"_id": ObjectId(car_id)})
+        return render_template('usedcars.html')
+        
+            
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 

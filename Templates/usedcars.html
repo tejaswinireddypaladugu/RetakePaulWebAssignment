@@ -29,6 +29,7 @@
                             <p>Condition: ${car.car_condition}</p>
                             <p>Price: $${car.car_price}</p>
                             <img src="/static/assets/edit.png" width="10" height="10" class="edit" onclick="window.location.href='/editcar?id=${car._id}'"/>
+                              <img src="/static/assets/bin.png" width="10" height="10" class="delete" onclick="window.location.href='/deletecar?id=${car._id}'"/>
                         `;
                         carsList.appendChild(carItem);
                     });
