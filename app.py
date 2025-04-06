@@ -30,6 +30,11 @@ def Home():
 def Contactus():
     return render_template('contactus.html',username="")
 
+
+@app.route("/login")
+def Contactus():
+    return render_template('login.html',username="")
+
 @app.route("/sellcar", methods=['GET', 'POST'])
 def Sellcar():
     if request.method == 'POST':
@@ -136,7 +141,7 @@ async def SearchPage():
     if value:
         query = {
             "$or": [
-                {"car_model": {"$regex": value, "$options": "i"}},  # case-insensitive
+                {"car_model": {"$regex": value, "$options": "i"}},  
                 {"car_year": {"$regex": value, "$options": "i"}},
                 {"car_condition": {"$regex": value, "$options": "i"}},
                 {"car_price": {"$regex": value, "$options": "i"}}, 
