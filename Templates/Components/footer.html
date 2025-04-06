@@ -9,7 +9,7 @@
     const searchInput=document.querySelector('.search');
 
     searchButton.addEventListener('click',(e)=>{
-
+            window.location.href=`/search?value=${searchInput.value}`
     })
     console.log(searchButton,searchInput);
 </script>

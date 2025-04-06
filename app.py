@@ -128,5 +128,12 @@ def FetchCars():
 def UsedCars():
     return render_template('usedcars.html',username="")
 
+
+@app.route("/search")
+async def SeachPage():
+    value=await request.json().get('value')
+    print(value)
+    return render_template('searchpage.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
