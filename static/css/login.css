@@ -1,0 +1,87 @@
+/* Reset some default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(to right, #a02521, #cc38334b);
+    color: #fff;
+}
+
+.loginpage {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 350px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+h2 {
+    margin-bottom: 1rem;
+}
+
+.queries {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.queries h3 {
+    cursor: pointer;
+    font-size: 1rem;
+    transition: 0.3s;
+    color: white;
+}
+
+.queries h3:hover {
+    text-decoration: underline;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+button {
+    background: #a02521;
+    color: white;
+    padding: 10px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #cc38334b;
+}
+
+/* Register link */
+h3 span {
+    cursor: pointer;
+    color: white;
+    transition: 0.3s;
+}
+
+h3 span:hover {
+    text-decoration: underline;
+}
