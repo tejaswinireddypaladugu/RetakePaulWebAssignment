@@ -129,11 +129,25 @@ def UsedCars():
     return render_template('usedcars.html',username="")
 
 
-@app.route("/search")
-async def SeachPage():
-    value=await request.json().get('value')
-    print(value)
-    return render_template('searchpage.html')
+@app.route("/search", methods=["GET"])
+async def SearchPage():
+    value = request.args.get('value')
+    
+    if value:
+        query = {
+            "$or": [
+                {"car_model": {"$regex": value, "$options": "i"}},  # case-insensitive
+                {"car_year": {"$regex": value, "$options": "i"}},
+                {"car_condition": {"$regex": value, "$options": "i"}},
+                {"car_price": {"$regex": value, "$options": "i"}}, 
+            ]
+        }
+        results = list(db.cars.find(query))
+    else:
+        results = []
+
+    print(results)
+    return render_template('searchpage.html', results=results)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -3,9 +3,24 @@
 </main>
 <section class="used-cars">
     <div class="container">
-        <h2>Available Used Cars</h2>
-        <div id="cars-list" class="cars-grid" >
-        </div>
+        <h2>Search Results</h2>
+
+        {% if results %}
+            <div id="cars-list" class="cars-grid">
+                {% for car in results %}
+                    <div class="car-card">
+                        <img src="{{ car.car_image }}" alt="Car Image">
+                        <h3>{{ car.car_model }} ({{ car.car_year }})</h3>
+                        <p>Condition: {{ car.car_condition }}</p>
+                        <p>Price: ${{ car.car_price }}</p>
+                        <img src="/static/assets/edit.png" width="10" height="10" class="edit" onclick="window.location.href='/editcar?id={{ car._id }}'" />
+                        <img src="/static/assets/bin.png" width="10" height="10" class="delete" onclick="window.location.href='/deletecar?id={{ car._id }}'" />
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No matching cars found.</p>
+        {% endif %}
     </div>
 </section>
 </main>
