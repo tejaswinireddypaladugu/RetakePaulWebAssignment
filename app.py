@@ -32,8 +32,12 @@ def Contactus():
 
 
 @app.route("/login")
-def Contactus():
-    return render_template('login.html',username="")
+def Login():
+    return render_template('login.html')
+
+@app.route("/register")
+def Register():
+    return render_template('register.html')
 
 @app.route("/sellcar", methods=['GET', 'POST'])
 def Sellcar():
