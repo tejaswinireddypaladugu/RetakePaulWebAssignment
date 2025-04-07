@@ -35,7 +35,7 @@ def Contactus():
 def Login():
     return render_template('login.html')
 
-@app.route("/register")
+@app.route("/register",methods=['GET','POST'])
 def Register():
     return render_template('register.html')
 
