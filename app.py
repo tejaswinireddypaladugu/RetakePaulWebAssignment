@@ -172,6 +172,12 @@ def UsedCars():
        return render_template('usedcars.html',username=session.get('user'))
     return redirect('/login')
 
+@app.route("/services")
+def Services():
+    if(session.get('user')):
+       return render_template('services.html',username=session.get('user'))
+    return redirect('/login')
+
 
 
 @app.route("/search", methods=["GET"])

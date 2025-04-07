@@ -51,7 +51,10 @@ header {
     max-width: 100%;
     height: auto;
   }
-
+.hero img
+{
+  width: 70%;
+}
   .intro h4 {
     font-size: 1.5em;
     margin: 20px 0;

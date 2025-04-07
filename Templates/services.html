@@ -1,0 +1,36 @@
+{% include 'components/header.html' %}
+
+<main>
+  <section class="hero">
+    <img src="{{ url_for('static', filename='assets/services.jpg') }}" alt="Sell Image" class="hero-image"/>
+  </section>
+
+  <section class="intro" style="text-align:center; padding: 2rem;">
+    <h2>Our Services</h2>
+    <p>We make the car selling process smooth, transparent, and efficient.</p>
+  </section>
+
+  <section class="steps">
+    <div class="steps-container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; padding: 2rem;">
+      <div class="step" style="text-align: center; max-width: 300px;">
+        <img src="{{ url_for('static', filename='assets/service1.jpg') }}" alt="Step 1" width="300" height="300"/>
+        <h3>Step 1</h3>
+        <p>Answer some questions about your car to help us understand its condition.</p>
+      </div>
+
+      <div class="step" style="text-align: center; max-width: 300px;">
+        <img src="{{ url_for('static', filename='assets/bg2.jpg') }}" alt="Step 2" width="300" height="300"/>
+        <h3>Step 2</h3>
+        <p>Our car expert will physically verify your car’s condition and give you the final offer.</p>
+      </div>
+
+      <div class="step" style="text-align: center; max-width: 300px;">
+        <img src="{{ url_for('static', filename='assets/bg3.webp') }}" alt="Step 3" width="300" height="300"/>
+        <h3>Step 3</h3>
+        <p>We will transfer the amount directly to your bank account before your car is picked up.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+{% include 'components/footer.html' %}
