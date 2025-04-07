@@ -3,7 +3,7 @@ from pymongo import MongoClient
 from werkzeug.utils import secure_filename
 import os
 from flask import session
-
+from werkzeug.security import generate_password_hash,check_password_hash
 app=Flask(__name__)
 
 app.config["MONGO_URI"] = "mongodb://localhost:27017/"
@@ -42,7 +42,7 @@ def Login():
                 exist=db.users.find_one({'email':data['email']})
                 if not exist:
                     return jsonify({'success': False, 'message': 'Email not registered'})
-                if exist['password'] != data['password']: 
+                if not check_password_hash(exist['password'], data['password']):
                     return jsonify({'success': False, 'message': 'Password not match'}) 
                 session['user'] = exist['email']
                 return jsonify({'success': True, 'message': 'Login success'}) 
@@ -58,7 +58,7 @@ async def Register():
                 userData = {
                     'name': data['name'],
                     'email': data['email'],
-                    'password':data['password']  
+                    'password':generate_password_hash(data['password'])  
                 }
                 exist=db.users.find_one({'email':data['email']})
                 if exist:
