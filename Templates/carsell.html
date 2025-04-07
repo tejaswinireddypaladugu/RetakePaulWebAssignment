@@ -32,11 +32,13 @@
       <div class="form-group">
         <label for="carprice">Price:</label>
         <input type="number" id="carprice" name="car_price" required>
+        <label id="carPriceError"></label>
       </div>
       
       <div class="form-group">
         <label for="carimage">Car Image:</label>
         <input type="file" id="carimage" name="car_image" accept="image/*" required>
+        <label id="carImageError"></label>
       </div>
       
       <button type="submit">Submit</button>
@@ -63,38 +65,17 @@ function editCar()
 
     document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
 
-    // if (carModel === "") {
-    //     document.getElementById('carModelError').textContent = "Car model is required!";
-    //     isValid = false;
-    // }
 
-    // let currentYear = new Date().getFullYear();
-    // if (carYear === "" || carYear < 1900 || carYear > currentYear) {
-    //     document.getElementById('carYearError').textContent = "Enter a valid year between 1900 and " + currentYear;
-    //     isValid = false;
-    // }
+    if (carPrice === "" || carPrice < 10000) {
+        document.getElementById('carPriceError').textContent = "Price should be at least 10000!";
+        return;
+    }
+    
+    if (!carImage) {
+        document.getElementById('carImageError').textContent = "Car image is required!";
+        return;
+    }  
 
-    // if (carCondition === "") {
-    //     document.getElementById('carConditionError').textContent = "Car condition is required!";
-    //     isValid = false;
-    // }
-
-    // if (carPrice === "" || carPrice < 100) {
-    //     document.getElementById('carPriceError').textContent = "Price should be at least $100!";
-    //     isValid = false;
-    // }
-
-    // if (!carImage) {
-    //     document.getElementById('carImageError').textContent = "Car image is required!";
-    //     isValid = false;
-    // } else if (carImage.size > 2 * 1024 * 1024) {
-    //     document.getElementById('carImageError').textContent = "Image must be less than 2MB!";
-    //     isValid = false;
-    // }
-
-    // if (!isValid) {
-    //     return; 
-    // }
 
     let formData = new FormData();
     formData.append('car_model', carModel);
@@ -137,40 +118,18 @@ function editCar()
     let carPrice = document.getElementById('carprice').value.trim();
     let carImage = document.getElementById('carimage').files[0];
 
-    // document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
 
-    // if (carModel === "") {
-    //     document.getElementById('carModelError').textContent = "Car model is required!";
-    //     isValid = false;
-    // }
 
-    // let currentYear = new Date().getFullYear();
-    // if (carYear === "" || carYear < 1900 || carYear > currentYear) {
-    //     document.getElementById('carYearError').textContent = "Enter a valid year between 1900 and " + currentYear;
-    //     isValid = false;
-    // }
+    if (carPrice === "" || carPrice < 10000) {
+        document.getElementById('carPriceError').textContent = "Price should be at least 10000!";
+        return;
+    }
 
-    // if (carCondition === "") {
-    //     document.getElementById('carConditionError').textContent = "Car condition is required!";
-    //     isValid = false;
-    // }
+    if (!carImage) {
+        document.getElementById('carImageError').textContent = "Car image is required!";
+        return;
+    } 
 
-    // if (carPrice === "" || carPrice < 100) {
-    //     document.getElementById('carPriceError').textContent = "Price should be at least $100!";
-    //     isValid = false;
-    // }
-
-    // if (!carImage) {
-    //     document.getElementById('carImageError').textContent = "Car image is required!";
-    //     isValid = false;
-    // } else if (carImage.size > 2 * 1024 * 1024) {
-    //     document.getElementById('carImageError').textContent = "Image must be less than 2MB!";
-    //     isValid = false;
-    // }
-
-    // if (!isValid) {
-    //     return; 
-    // }
 
     let formData = new FormData();
     formData.append('car_model', carModel);
