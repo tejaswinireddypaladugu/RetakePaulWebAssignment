@@ -36,14 +36,10 @@ def Login():
     if(request.method=='POST'):
         try:
                 data = request.get_json()
-                userData = {
-                    'email': data['email'],
-                    'password':data['password']  
-                }
                 exist=db.users.find_one({'email':data['email']})
-                if exist:
+                if not exist:
                     return jsonify({'success': False, 'message': 'Email not registered'})
-                if exist.password!=data['password']: 
+                if exist['password'] != data['password']: 
                     return jsonify({'success': False, 'message': 'Password not match'}) 
 
                 return jsonify({'success': True, 'message': 'Login success'}) 
