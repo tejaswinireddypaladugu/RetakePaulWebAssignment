@@ -92,9 +92,11 @@ def Sellcar():
                 'car_price': car_price,
                 'car_image': os.path.join(app.config['UPLOAD_FOLDER'], filename)
             }
-            db.cars.insert_one(car_data)  
-            
-            return jsonify({'success': True, 'message': 'Car Created successfully'}) 
+            if(session.get('user')):
+                db.cars.insert_one(car_data)  
+                return jsonify({'success': True, 'message': 'Car Created successfully'}) 
+            else:
+                return jsonify({'success': True, 'message': 'Kindly login first!'}) 
     if(session.get('user')):
        return render_template('carsell.html',username=session.get('user'))
     return redirect('/login')    
