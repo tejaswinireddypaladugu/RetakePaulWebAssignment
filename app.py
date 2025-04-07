@@ -31,12 +31,43 @@ def Contactus():
     return render_template('contactus.html',username="")
 
 
-@app.route("/login")
+@app.route("/login",methods=['GET','POST'])
 def Login():
+    if(request.method=='POST'):
+        try:
+                data = request.get_json()
+                userData = {
+                    'email': data['email'],
+                    'password':data['password']  
+                }
+                exist=db.users.find_one({'email':data['email']})
+                if exist:
+                    return jsonify({'success': False, 'message': 'Email not registered'})
+                if exist.password!=data['password']: 
+                    return jsonify({'success': False, 'message': 'Password not match'}) 
+
+                return jsonify({'success': True, 'message': 'Login success'}) 
+        except Exception as e:
+                return jsonify({'success': False, 'message': str(e)})
     return render_template('login.html')
 
 @app.route("/register",methods=['GET','POST'])
-def Register():
+async def Register():
+    if(request.method=='POST'):
+        try:
+                data = request.get_json()
+                userData = {
+                    'name': data['name'],
+                    'email': data['email'],
+                    'password':data['password']  
+                }
+                exist=db.users.find_one({'email':data['email']})
+                if exist:
+                    return jsonify({'success': False, 'message': 'User already registered'}) 
+                db.users.insert_one(userData)
+                return jsonify({'success': True, 'message': 'User added successfully'}) 
+        except Exception as e:
+                return jsonify({'success': False, 'message': str(e)})
     return render_template('register.html')
 
 @app.route("/sellcar", methods=['GET', 'POST'])

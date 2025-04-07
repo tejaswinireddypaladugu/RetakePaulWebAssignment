@@ -28,6 +28,13 @@
                    body:JSON.stringify(obj)
                 })
                  const data=await response.json();
+                 if(data.success===true)
+                 {
+                    alert(data.message);
+                    window.location.href="/login";
+                  
+                    return;
+                 }
                  alert(data.message);
               }
               catch(error)
