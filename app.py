@@ -2,6 +2,7 @@ from flask import Flask, jsonify, redirect, render_template,request,session
 from pymongo import MongoClient
 from werkzeug.utils import secure_filename
 import os
+from flask import session
 
 app=Flask(__name__)
 
@@ -19,16 +20,18 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+
 @app.route("/")
 def Home():
     if(session.get('user')):
-       print('user',session.get('user'))
        return render_template('index.html',username=session.get('user'))
-    return render_template('index.html',username="")
+    return redirect('/login')
 
 @app.route("/contactus")
 def Contactus():
-    return render_template('contactus.html',username="")
+    if(session.get('user')):
+       return render_template('contactus.html',username=session.get('user'))
+    return redirect('/login')
 
 
 @app.route("/login",methods=['GET','POST'])
@@ -41,7 +44,7 @@ def Login():
                     return jsonify({'success': False, 'message': 'Email not registered'})
                 if exist['password'] != data['password']: 
                     return jsonify({'success': False, 'message': 'Password not match'}) 
-
+                session['user'] = exist['email']
                 return jsonify({'success': True, 'message': 'Login success'}) 
         except Exception as e:
                 return jsonify({'success': False, 'message': str(e)})
@@ -92,7 +95,10 @@ def Sellcar():
             db.cars.insert_one(car_data)  
             
             return jsonify({'success': True, 'message': 'Car Created successfully'}) 
-    return render_template('carsell.html', username=session.get('user'))
+    if(session.get('user')):
+       return render_template('carsell.html',username=session.get('user'))
+    return redirect('/login')    
+
 
 
 @app.route('/success')
@@ -162,7 +168,10 @@ def FetchCars():
 
 @app.route("/usedcars")
 def UsedCars():
-    return render_template('usedcars.html',username="")
+    if(session.get('user')):
+       return render_template('usedcars.html',username=session.get('user'))
+    return redirect('/login')
+
 
 
 @app.route("/search", methods=["GET"])
