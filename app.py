@@ -92,11 +92,9 @@ def Sellcar():
                 'car_price': car_price,
                 'car_image': os.path.join(app.config['UPLOAD_FOLDER'], filename)
             }
-            if(session.get('user')):
-                db.cars.insert_one(car_data)  
-                return jsonify({'success': True, 'message': 'Car Created successfully'}) 
-            else:
-                return jsonify({'success': True, 'message': 'Kindly login first!'}) 
+            db.cars.insert_one(car_data)  
+            
+            return jsonify({'success': True, 'message': 'Car Created successfully'}) 
     if(session.get('user')):
        return render_template('carsell.html',username=session.get('user'))
     return redirect('/login')    
@@ -178,23 +176,25 @@ def UsedCars():
 
 @app.route("/search", methods=["GET"])
 async def SearchPage():
-    value = request.args.get('value')
-    
-    if value:
-        query = {
-            "$or": [
-                {"car_model": {"$regex": value, "$options": "i"}},  
-                {"car_year": {"$regex": value, "$options": "i"}},
-                {"car_condition": {"$regex": value, "$options": "i"}},
-                {"car_price": {"$regex": value, "$options": "i"}}, 
-            ]
-        }
-        results = list(db.cars.find(query))
-    else:
-        results = []
+    if(session.get('user')):
+        value = request.args.get('value')
+        
+        if value:
+            query = {
+                "$or": [
+                    {"car_model": {"$regex": value, "$options": "i"}},  
+                    {"car_year": {"$regex": value, "$options": "i"}},
+                    {"car_condition": {"$regex": value, "$options": "i"}},
+                    {"car_price": {"$regex": value, "$options": "i"}}, 
+                ]
+            }
+            results = list(db.cars.find(query))
+        else:
+            results = []
 
-    print(results)
-    return render_template('searchpage.html', results=results)
+        print(results)
+        return render_template('searchpage.html', results=results,username=session.get('user'))
+    return redirect('/login')
 
 if __name__ == "__main__":
     app.run(debug=True)
