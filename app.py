@@ -72,10 +72,10 @@ async def Register():
 @app.route("/sellcar", methods=['GET', 'POST'])
 def Sellcar():
     if request.method == 'POST':
-        car_model = request.form['car_model']
-        car_year = request.form['car_year']
-        car_condition = request.form['car_condition']
-        car_price = request.form['car_price']
+        carModel = request.form['car_model']
+        carYear = request.form['car_year']
+        carCondition = request.form['car_condition']
+        carPrice = request.form['car_price']
         
         if 'car_image' not in request.files:
             return 'No image part', 400
@@ -86,10 +86,10 @@ def Sellcar():
             car_image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             
             car_data = {
-                'car_model': car_model,
-                'car_year': car_year,
-                'car_condition': car_condition,
-                'car_price': car_price,
+                'car_model': carModel,
+                'car_year': carYear,
+                'car_condition': carCondition,
+                'car_price': carPrice,
                 'car_image': os.path.join(app.config['UPLOAD_FOLDER'], filename)
             }
             db.cars.insert_one(car_data)  
@@ -112,29 +112,29 @@ from bson.objectid import ObjectId
 @app.route('/updatecar', methods=['PUT'])
 def UpdateCar():
     if request.method == 'PUT':
-        car_id = request.form.get('car_id')  
+        carID = request.form.get('car_id')  
             
-        car_model = request.form['car_model']
-        car_year = request.form['car_year']
-        car_condition = request.form['car_condition']
-        car_price = request.form['car_price']
+        carModel = request.form['car_model']
+        carYear = request.form['car_year']
+        carCondition = request.form['car_condition']
+        carPrice = request.form['car_price']
 
-        car_data = {
-            'car_model': car_model,
-            'car_year': car_year,
-            'car_condition': car_condition,
-            'car_price': car_price
+        carData = {
+            'car_model': carModel,
+            'car_year': carYear,
+            'car_condition': carCondition,
+            'car_price': carPrice
         }
     
         if 'car_image' in request.files:
-            car_image = request.files['car_image']
-            if car_image and allowed_file(car_image.filename):
-                filename = secure_filename(car_image.filename)
+            carImage = request.files['car_image']
+            if carImage and allowed_file(carImage.filename):
+                filename = secure_filename(carImage.filename)
                 filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                car_image.save(filepath)
-                car_data['car_image'] = filepath 
+                carImage.save(filepath)
+                carData['car_image'] = filepath 
         
-        result = db.cars.update_one({"_id": ObjectId(car_id)}, {"$set": car_data})
+        result = db.cars.update_one({"_id": ObjectId(carID)}, {"$set": carData})
         
         if result.modified_count > 0:
              return jsonify({'success': True, 'message': 'Car updated successfully'})
