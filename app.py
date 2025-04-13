@@ -23,16 +23,17 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route("/")
 def Home():
-    if(session.get('user')):
        return render_template('index.html',username=session.get('user'))
-    return redirect('/login')
 
 @app.route("/contactus")
 def Contactus():
-    if(session.get('user')):
        return render_template('contactus.html',username=session.get('user'))
-    return redirect('/login')
 
+
+@app.route("/logout")
+def Logout():
+       session.clear()
+       return redirect('/login')
 
 @app.route("/login",methods=['GET','POST'])
 def Login():
@@ -167,11 +168,15 @@ def UsedCars():
        return render_template('usedcars.html',username=session.get('user'))
     return redirect('/login')
 
+
+@app.route("/usedcarsforusers")
+def UsedCarsForUsers():
+       return render_template('usedcarsforusers.html',username=session.get('user'))
+
 @app.route("/services")
 def Services():
-    if(session.get('user')):
+
        return render_template('services.html',username=session.get('user'))
-    return redirect('/login')
 
 
 
@@ -193,9 +198,6 @@ async def SearchPage():
         else:
             results = []
 
-        print(results)
         return render_template('searchpage.html', results=results,username=session.get('user'))
-    return redirect('/login')
-
 if __name__ == "__main__":
     app.run(debug=True)

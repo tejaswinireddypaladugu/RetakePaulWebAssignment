@@ -15,12 +15,19 @@
     <nav>
         <ul class="nav-links">
             <li><a href="/">Home</a></li>
+            {% if username%}
             <li><a href="/sellcar">Sell Cars</a></li>
+            {% endif%}
+            {% if username%}
             <li><a href="/usedcars">Used Cars</a></li>
+            {% else %}
+            <li><a href="/usedcarsforusers">Used Cars</a></li>
+            {% endif%}
+          
             <li><a href="/services">Services</a></li>
             <li><a href="/contactus">Contact us</a></li>
              {% if username%}
-            <li><a href="/login">Logout</a></li>
+            <li><a href="/logout">Logout</a></li>
             {% else %}
             <li><a href="/login">Login</a></li>
             {% endif%}
