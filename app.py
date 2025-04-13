@@ -148,7 +148,7 @@ def DeleteCar():
         if not car_id:
             return jsonify({'success': False, 'message': 'Car ID not present'})
    
-        result = db.cars.delete_one({"_id": ObjectId(car_id)})
+        db.cars.delete_one({"_id": ObjectId(car_id)})
         return render_template('usedcars.html')
         
             
@@ -157,7 +157,7 @@ def allowed_file(filename):
 
 @app.route("/fetchcars")
 def FetchCars():
-    cars = list(db.cars.find({}))  
+    cars = list(db.cars.find({}).sort("car_price",1))  
     for car in cars:
         car["_id"] = str(car["_id"]) 
     return jsonify(cars)
@@ -190,7 +190,7 @@ async def SearchPage():
                     {"car_price": {"$regex": value, "$options": "i"}}, 
                 ]
             }
-            results = list(db.cars.find(query))
+            results = list(db.cars.find(query).sort("car_price",1))
         else:
             results = []
 
