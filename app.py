@@ -143,12 +143,11 @@ def UpdateCar():
         
 @app.route('/deletecar', methods=['GET'])
 def DeleteCar():
-        car_id = request.args.get('id')  
-        print('id',car_id)
-        if not car_id:
+        carId = request.args.get('id')  
+        if not carId:
             return jsonify({'success': False, 'message': 'Car ID not present'})
    
-        db.cars.delete_one({"_id": ObjectId(car_id)})
+        db.cars.delete_one({"_id": ObjectId(carId)})
         return render_template('usedcars.html')
         
             
