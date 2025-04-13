@@ -101,10 +101,6 @@ def Sellcar():
 
 
 
-@app.route('/success')
-def success():
-    return '<h1>Your car has been listed for sale successfully!</h1>'
-
 @app.route('/editcar')
 def EditCar():
     id=request.args.get('id')
